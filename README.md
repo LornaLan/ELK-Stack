@@ -2,16 +2,28 @@
 
 The files in this repository were used to configure the network depicted below.
 
+**Note**: Things to complete from the homework README file
+
+For homework, you will create a GitHub repository where you will save your project files and this README. Your repository will include:
+
+- Your network diagram.
+- A description of the deployment.
+- Tables specifying access policies and network addresses.
+- A description of the investigation you completed using Kibana. 
+- Usage instructions.
+
+This professional-level repository will prove you have the knowledge and communication skills that hiring managers are looking for.
+
 **Note**: The following image link needs to be updated. Replace `diagram_filename.png` with the name of your diagram image file.  
 
 ![TODO: Update the path with the name of your diagram](Images/diagram_filename.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
 
-  - _TODO: Enter the playbook file._
+  - `install-elk.yml`
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -23,8 +35,7 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly available, in addition to restricting unauthorized access to the network.
 
 Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
 - _TODO: What does Filebeat watch for?_
