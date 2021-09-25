@@ -26,6 +26,7 @@
       name: dvwa
       image: cyberxsecurity/dvwa
       state: started
+      restart_policy: always # always restart the container
       published_ports: 80:80
 
   - name: enable docker service
