@@ -1,5 +1,5 @@
 ---
-- name: copy test scripts over
+- name: stress test webservers via ansible
   hosts: webservers
   become: true
   tasks:
@@ -9,6 +9,10 @@
     copy:
       src: /etc/ansible/cpu_stress_test.sh
       dest: /home/webadmin/cpu_test.sh
+
+  # Make script executable
+  - name: make stress test script executable
+    command: chmod 777 /home/webadmin/cpu_test.sh
 
   # Run the cpu stress test script
   - name: run cpu stress test

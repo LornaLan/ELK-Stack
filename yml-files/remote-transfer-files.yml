@@ -1,0 +1,10 @@
+---
+- name: copy test scripts over
+  hosts: webservers
+  become: true
+  tasks:
+    # Use ansible copy module
+  - name: drop in cpu stress test script
+    copy:
+      src: /etc/ansible/cpu_stress_test.sh
+      dest: /home/webadmin/cpu_test.sh
