@@ -14,9 +14,7 @@ For homework, you will create a GitHub repository where you will save your proje
 
 ![Structure of the ELK Stack Cloud Network](Images/cloud-structure.png)
 
-The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
-
-  - `install-elk.yml`
+The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. The Ansible scripts to install all the required containers for ELK stack and DVWA webservers are under folder `yml-install`. Some other Ansible scripts for running tests and managing the deployed virtual machines (VMs) are under folder `yml-tests`. There are also some shell scripts used for testing VM setups, which are stored under `shell-scripts`. Images recording the test results are under the `images` folder. 
 
 This document contains the following details:
 - Description of the Topology
