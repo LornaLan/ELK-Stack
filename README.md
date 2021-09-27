@@ -12,13 +12,9 @@ For homework, you will create a GitHub repository where you will save your proje
 - A description of the investigation you completed using Kibana. 
 - Usage instructions.
 
-This professional-level repository will prove you have the knowledge and communication skills that hiring managers are looking for.
+![Structure of the ELK Stack Cloud Network](Images/cloud-structure.png)
 
-**Note**: The following image link needs to be updated. Replace `diagram_filename.png` with the name of your diagram image file.  
-
-![TODO: Update the path with the name of your diagram](Images/diagram_filename.png)
-
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
 
   - `install-elk.yml`
 

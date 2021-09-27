@@ -1,0 +1,21 @@
+---
+- name: dos test via ansible
+  hosts: webservers
+  become: true
+  tasks:
+  
+  # Use ansible copy module
+  - name: drop in dos test script
+    copy:
+      src: /etc/ansible/wget_dos.sh
+      dest: /home/webadmin/wget_dos.sh
+
+  # Make script executable
+  - name: make test script executable
+    command: chmod 777 /home/webadmin/wget_dos.sh
+
+  # Run the cpu stress test script
+  - name: run dos test
+    command: bash /home/webadmin/wget_dos.sh
+
+  # monitor Kibana for metricbeat report

@@ -18,4 +18,4 @@
   - name: run cpu stress test
     command: bash /home/webadmin/cpu_test.sh
 
-  # monitor Kinaba for metricbeat report
+  # monitor Kibana for metricbeat report
