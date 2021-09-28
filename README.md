@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Structure of the ELK Stack Cloud Network](images/cloud-structure.png)
+![Structure of the ELK Stack Cloud Network](image/cloud-structure.png)
 
 The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. The Ansible scripts to install all the required containers for ELK stack and DVWA webservers are under folder `yml-install`. Some other Ansible scripts for running tests and managing the deployed virtual machines (VMs) are under folder `yml-tests`. There are also some shell scripts used for testing VM setups, which are stored under `shell-scripts`. Images recording the test results are under the `images` folder. 
 
@@ -23,11 +23,11 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 
 - [Filebeat](https://www.elastic.co/beats/filebeat) is a lightweight system log monitoring system integrated with the Elastic Stack. It processes all the raw system log files in a queue, aggregates and parses them, and ships the result to Kibana for visualization. A typical Filebeat system dashboard is shown below, where it displays all the logs for system operations, sudo commands, ssh logins and users and groups creation or management.
 
-  ![Filebeat Dashboard](images/system-logs-dashboard.jpg)
+  ![Filebeat Dashboard](image/system-logs-dashboard.jpg)
 
 - [Metricbeat](https://www.elastic.co/beats/metricbeat) collects metrics about the deployed systems and metrics and sends them to Kibana for visualization. It displays many metrics across your cloud VMs, such as CPU, memory and file system usage, disk and network IO statistics. A typical Metricbeat dashboard is shown below:
 
-  ![Metricbeat Dashboard](images/metricbeat-docker-dashboard.jpg)
+  ![Metricbeat Dashboard](image/metricbeat-docker-dashboard.jpg)
 
 The configuration details of each machine may be found below.
 
@@ -69,7 +69,7 @@ To set up the ELK host machine, the Ansible playbook script `install-elk.yml` is
 The following screenshot displays the expected result of successfully configuring the ELK instance. After running the `docker ps -a` command on your ELK host, you should see the `sebp/elk:761` running, with the port mappings as configured.
 
 
-![Docker PS Success Config](images/elk-docker-deployed.jpg)
+![Docker PS Success Config](image/elk-docker-deployed.jpg)
 
 #### Machines Being Monitored
 This ELK server is configured to monitor the three DVWA webservers (`web{1, 2, 3}` as listed before). The Filebeat and Metricbeat packages are installed on these individual machine via Ansible playbook scripts.
