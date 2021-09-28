@@ -4,14 +4,15 @@ The files in this repository were used to configure the network depicted below.
 
 ![Structure of the ELK Stack Cloud Network](image/cloud-structure.png)
 
-The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. The Ansible scripts to install all the required containers for ELK stack and DVWA webservers are under folder `yml-install`. Some other Ansible scripts for running tests and managing the deployed virtual machines (VMs) are under folder `yml-tests`. There are also some shell scripts used for testing VM setups, which are stored under `shell-scripts`. Images recording the test results are under the `images` folder. 
+The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. The Ansible scripts to install all the required containers for ELK stack and DVWA webservers are under folder `yml-install`. Some other Ansible scripts for running tests and managing the deployed virtual machines (VMs) are under folder `yml-tests`. The Ansible configuration files are under `ansible-config` folder. There are also some shell scripts used for testing the VM setup, which are stored under `bash-scripts`. Images recording the test results are under the `image` folder. 
 
 This document contains the following details:
 
-[TOC]
-
-
-
+1. Description of the Topology
+2. Access Policies
+3. ELK Setup and Configuration
+4. Testing with ELK and DVWA servers
+5. Acknowledgement
 
 ### Description of the Topology
 
@@ -36,7 +37,6 @@ The configuration details of each machine may be found below.
 | jumpHost     | Only Gateway to configure the internal network | 20.102.104.146               | 10.0.0.4             | Linux - Ubuntu 20.04 gen2 | 1 vCPUs, 1GB RAM, 30GB Disk |
 | elkHost      | Base machine for running the ELK stack         | 20.48.224.215                | 10.1.7.4             | Linux - Ubuntu 20.04 gen1 | 2 vCPUs, 8GB RAM, 30GB Disk |
 | Web{1, 2, 3} | Redundant servers for running DVWA             | 40.88.33.102 (Load Balancer) | 10.0.0.{5, 6, 7}     | Linux - Ubuntu 20.04 gen1 | 1 vCPUs, 2GB RAM, 30GB Disk |
-|              |                                                |                              |                      |                           |                             |
 
 ### Access Policies
 
@@ -56,44 +56,50 @@ A summary of the access policies in place can be found in the table below.
 | elkHost       | Yes                 | my home IP           | Kibana @ 5601   |
 | web{1, 2, 3}  | No                  | N/A                  | N/A             |
 | Load Balancer | Yes                 | any                  | HTTP @ 80       |
-|               |                     |                      |                 |
 
-### Elk Configuration
-
-#### Beats Setup
+### ELK Setup and Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which reduces human input error, and allows us to spin up similar machines with ease.
 
-To set up the ELK host machine, the Ansible playbook script `install-elk.yml` is run via command `ansible-playbook install-elk.yml`. The script installs Docker module and ELK container on `elkHost` machine. The allocated memory for the ELK application is increased to ensure the smooth running of the docker container, and they are persistent through reboots.
+In order to use the playbook `yml` scripts, you will need to have an Ansible control node already configured. In this project, we used the Ansible container from `\cyberxsecurity/ansible` container from [Docker Hub](https://hub.docker.com/r/cyberxsecurity/ansible). This node is set up and run in the `jumpHost` machine. 
 
-The following screenshot displays the expected result of successfully configuring the ELK instance. After running the `docker ps -a` command on your ELK host, you should see the `sebp/elk:761` running, with the port mappings as configured.
+Assuming such a control node is configured and provisioned, do the following steps to set up Filebeat and Metricbeat on your DVWA web servers: 
 
+1. SSH into the jump host machine, start the Ansible container, and attach to the container:
 
-![Docker PS Success Config](image/elk-docker-deployed.jpg)
+   - Go to `\etc\ansible` (or wherever the Ansible configuration files are) and modify your `hosts` file to setup the grouping and associated VM IP addresses (see `ansible-config\hosts` file here as reference).  
 
-#### Machines Being Monitored
-This ELK server is configured to monitor the three DVWA webservers (`web{1, 2, 3}` as listed before). The Filebeat and Metricbeat packages are installed on these individual machine via Ansible playbook scripts.
+   - In the same directory, modify line #107 in your `ansible.cfg` file, which should come with the installation, to include the remote machine's admin account user name. This account will be used by Ansible to perform all the set up tasks, so it should have `sudo` priviledges.
 
-### Using Ansible Playbooks
+2. Run the `ansible-playbook install-elk.yml` command. The script installs Docker module and ELK container on `elkHost` machine. The allocated memory for the ELK application is increased to ensure the smooth running of the docker container, and they are persistent through reboots.
 
-A few other playbook scripts to set up the network structure, under the `yml-install` folder, are described below:
+   - The following screenshot displays the expected result of successfully configuring the ELK instance. After running the `docker ps -a` command on your ELK host, you should see the `sebp/elk:761` running, with the port mappings as configured.
 
-- `dockerweb.yml`: install Docker module and launch the DVWA web container on `web{1, 2, 3}` machines. Docker and DVWA web containers will always restart after each machine reboot.
-- `filebeat/metricbeat-playbook.yml`: install the Filebeat/Metricbeat package and configure them according to Kibana instructions. The `filebeat/metricbeat services` are always started at reboot, to prevent the monitoring data stream in Kibana from being interrupted.  
+     ![Docker PS Success Config](image/elk-docker-deployed.jpg)
 
-In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
+   - Also verify that you can access the Kibana panel at the desired URL (`http://<server_public_ip>:5601/app/kibana`)
 
-SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+3. After confirming that Kibana runs correctly, run the `ansible-playbook filebeat/metricbeat-playbook.yml` command to install Filebeat and Metricbeat on your web servers. 
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+   - Note that you can find the `filebeat-config.yml` file under the `yml-tests` folder, and modify line  #1805 and #1105 according to the ELK host server and web servers IPs
+   - `metricbeat-config.yml` is also under the `yml-tests` folder. Modify line #62 and #92 according to your ELK host server and web servers IPs.
+   - Update where you place these config files in your Ansible machine in line #15 in the `filebeat-playbook.yml` file and line #17 in the `metricbeat-playbook.yml` file.
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+4. Finally, navigate to your Kibana panel and check that you can see system log and metrics in the `logs` and `metric` panel.
+
+   - There are additional guidelines on setting up Filebeat and Metricbeat within the Kibana panel.
+   - Under Observability > Add log data > System logs, you can view the page for installing Filebeat and checking the data pipeline connection.
+   - Under Observability > Add metric data > Docker metrics, you can view the page for installing Metricbeat for monitoring docker containers on the servers and checking the data pipeline connection.
+
+### Testing with ELK and DVWA servers
+
+There are a few other scripts worth mentioning in this repository:
+
+- `yml-install/dockerweb.yml`: install Docker module and launch the DVWA web container on `web{1, 2, 3}` machines. Docker and DVWA web containers will always restart after each machine reboot.
+- `yml-tests/cpu-test-via-ansible.yml`: stress the CPU cores on web servers to 100% and see if Kibana picks up the changes under the CPU statistics of Metricbeat. The Bash shell script required is under `bash-scripts/cpu-stress.sh`.
+- `yml-tests/dos-test-via-ansible.yml`: use the `wget` command to download the index.html page of localhost and create arbitrary network traffic spike. Monitor Kibana and see if Metricbeat picks up the change under the network traffic panel. The Bash shell script required is under `bash-scripts/wget-dos.sh`.
+- `yml-tests/remote-transfer-files.yml`: an excessive but easy way to transfer files between the Ansible container and the rest of the web servers (or any remote servers Ansible controls).
+- `bash-scripts/many-ssh-logins.sh`: create failed SSH login attempts to all three webservers and test if Filebeat will record these actions. This Bash shell can be run on any Linux server as the incorrect public key will deny all access anyway.
 
 ### Acknowledgement
 
