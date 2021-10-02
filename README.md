@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Structure of the ELK Stack Cloud Network](image/cloud-structure.png)
+![Structure of the ELK Stack Cloud Network](image/cloud-structure-update.png)
 
 The files in this repository have been tested and used to generate a live ELK deployment on Microsoft Azure. The Ansible scripts to install all the required containers for ELK stack and DVWA webservers are under folder `yml-install`. Some other Ansible scripts for running tests and managing the deployed virtual machines (VMs) are under folder `yml-tests`. The Ansible configuration files are under `ansible-config` folder. There are also some shell scripts used for testing the VM setup, which are stored under `bash-scripts`. Images recording the test results are under the `image` folder. 
 
